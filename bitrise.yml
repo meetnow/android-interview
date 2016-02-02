@@ -1,0 +1,24 @@
+---
+format_version: 1.1.0
+default_step_lib_source: https://github.com/meetnow/android-interview.git
+app:
+  envs:
+  - default_apk_dir: "./app/build/outputs/apk"
+  - default_apk_name: app-debug.apk
+trigger_map:
+- pattern: "*"
+  is_pull_request_allowed: true
+  workflow: primary
+workflows:
+  primary:
+    steps:
+    - git-clone@3.0.0:
+        run_if: .IsCI
+    - script@1.1.0:
+        title: gradlew test
+        inputs:
+        - content: |-
+            #!/bin/bash
+            set -e
+            set -v
+            bash ./gradlew clean test
