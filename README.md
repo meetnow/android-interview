@@ -1,5 +1,5 @@
 # android-interview
-
+Master: [![Build Status](https://www.bitrise.io/app/39253833e3058beb.svg?token=jXN5f5YCQSCLcInOnDE6aQ&branch=master)](https://www.bitrise.io/app/39253833e3058beb)
 # Steps
 1. Fork this repo privately
 2. Clone it on your local machine
