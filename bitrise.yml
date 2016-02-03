@@ -1,0 +1,36 @@
+---
+format_version: 1.1.0
+default_step_lib_source: https://github.com/bitrise-io/bitrise-steplib.git
+app:
+  envs:
+  - BITRISE_PROJECT_PATH: app/build.gradle
+    opts:
+      is_expand: false
+  - GRADLE_TASK: clean test
+    opts:
+      is_expand: false
+  - GRADLEW_PATH: "./gradlew"
+    opts:
+      is_expand: false
+trigger_map:
+- pattern: "*"
+  is_pull_request_allowed: true
+  workflow: primary
+workflows:
+  primary:
+    steps:
+    - activate-ssh-key@3.1.0:
+        title: Activate App SSH key
+        inputs:
+        - ssh_key_save_path: "$HOME/.ssh/steplib_ssh_step_id_rsa"
+    - git-clone@3.1.0: {}
+    - gradle-runner@1.2.0:
+        inputs:
+        - gradle_file: "$BITRISE_PROJECT_PATH"
+        - gradle_task: "$GRADLE_TASK"
+    - gradle-unit-test@0.9.2: {}
+    - slack@2.1.0:
+        inputs:
+        - webhook_url: https://hooks.slack.com/services/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
+        - message: "$BITRISE_APP_TITLE - $GIT_REPOSITORY_URL"
+        - message_on_error: "$BITRISE_APP_TITLE - $GIT_REPOSITORY_URL"
